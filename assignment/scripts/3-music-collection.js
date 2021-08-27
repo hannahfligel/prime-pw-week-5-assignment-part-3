@@ -5,7 +5,7 @@ let collection = [];
 function addToCollection(title, artist, yearPublished){
 //   - Take in the album's `title`, `artist`, `yearPublished` as input parameters
 //   - Create a new object having the above properties
-let album = {
+let album = { 
     // TODO - add properties here
     title: title,
     artist: artist,
@@ -32,14 +32,14 @@ console.log(collection);
 //   - Take in an array parameter. (This allows it to be reused to show any collection, like the results from the find or search.)
 function showCollection(array){
 //   - Console.log the number of items in the array.
-    console.log("Number of albums:", collection.length);
+    console.log("Number of albums:", array.length); 
     //   - Loop over the array and console.log each album's information formatted like: `TITLE by ARTIST, published in YEAR`.
-    for(let i=0; i<collection.length; i++){
-    console.log(collection[i].title,"by", collection[i].artist, "published in", collection[i].yearPublished);
+    for(let i=0; i<array.length; i++){
+    console.log(array[i].title,"by", array[i].artist, "published in", array[i].yearPublished);
     }
 }
 // - Test the `showCollection` function.
-showCollection();
+showCollection(collection);
 
 
 
@@ -47,7 +47,7 @@ showCollection();
 //   - Take in `artist` (a string) parameter
 function findByArtist(artist){
 //   - Create an array to hold any results, empty to start
-    matches=[];
+    let matches=[]; 
     //   - Loop through the `collection` and add any objects with a matching artist to the array.
     for (let i=0; i<collection.length; i++){
         if( artist === collection[i].artist ){
@@ -66,15 +66,34 @@ console.log(findByArtist('Lizzo'));
 
 
 
-// - Create a function called `search`. This function should:
+// Create a function called `search`. This function should:
 //   - Take an input parameter for a search criteria object. Create your solution based on a search object that has these properties:
-//   ```
-//   { artist: 'Ray Charles', year: 1957 }
-//   ```
-//   - The returned output from `search` should meet these requirements:
+//   - The returned output from `search` should meet these requirements: 
+
+
+function search(input){
+    if(input === undefined){
+    return console.log(collection);
+    }//end if 
+
+    let matches = [];
+    for (let i=0; i<collection.length; i++){
+        if( input.artist === collection[i].artist && input.year === collection[i].yearPublished ){
+            matches.push( collection[i] );
+        }
+    }
+    return console.log(matches);
+
+
+
+}//end function
+search();
+search({ artist: 'Billie Eilish', year: 2021 });
+
 //     - Return a new array of all items in the `collection` matching *all* of the search criteria.
 //     - If no results are found, return an empty array.
 //     - If there is no search object or an empty search object provided as input, then return all albums in the `collection`.
+
 
 // - Add an array of `tracks` to your album objects. Each track should have a `name` and `duration`. You will need to update the functions to support this new property:
 //   - Update the `addToCollection` function to also take an input parameter for the array of tracks.
@@ -89,3 +108,4 @@ console.log(findByArtist('Lizzo'));
 //     1. NAME: DURATION
 //     2. NAME: DURATION
 // ```
+
