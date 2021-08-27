@@ -69,10 +69,14 @@ console.log(findByArtist('Lizzo'));
 // Create a function called `search`. This function should:
 //   - Take an input parameter for a search criteria object. Create your solution based on a search object that has these properties:
 //   - The returned output from `search` should meet these requirements: 
+//     - Return a new array of all items in the `collection` matching *all* of the search criteria.
+//     - If no results are found, return an empty array.
+//     - If there is no search object or an empty search object provided as input, then return all albums in the `collection`.
 
-
+//c
 function search(input){
-    if(input === undefined){
+    // (yay for the internet!)
+    if(input === undefined || Object.keys(input).length === 0 ){
     return console.log(collection);
     }//end if 
 
@@ -82,17 +86,14 @@ function search(input){
             matches.push( collection[i] );
         }
     }
-    return console.log(matches);
-
-
-
+    return console.log("Matches in Collection:", matches);
 }//end function
 search();
 search({ artist: 'Billie Eilish', year: 2021 });
+search({ artist: 'Finneas', year: 2020 });
+search({});
 
-//     - Return a new array of all items in the `collection` matching *all* of the search criteria.
-//     - If no results are found, return an empty array.
-//     - If there is no search object or an empty search object provided as input, then return all albums in the `collection`.
+
 
 
 // - Add an array of `tracks` to your album objects. Each track should have a `name` and `duration`. You will need to update the functions to support this new property:
