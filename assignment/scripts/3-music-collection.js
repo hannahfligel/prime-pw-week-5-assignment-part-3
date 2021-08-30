@@ -2,13 +2,14 @@
 let collection = [];
 // Add a function named `addToCollection`. This function should: 
 // Take in the album's `title`, `artist`, `yearPublished` as input parameters
-function addToCollection(title, artist, yearPublished){
+function addToCollection(title, artist, yearPublished, tracks){
     // Create a new object having the above properties
     let album = { 
         // TODO - add properties here
         title: title,
         artist: artist,
-        yearPublished: yearPublished
+        yearPublished: yearPublished,
+        tracks: tracks
     }
     //  Add the new object to the end of the `collection` array
     collection.push(album);
@@ -19,12 +20,17 @@ function addToCollection(title, artist, yearPublished){
 // Test the `addToCollection` function:
 // Add 6 albums to your collection. Aim to have a mix of both same and different artists and published years. (Feel free to share your musical interests, or make stuff up. Totally fine either way.)
 //  Console.log each album as added using the returned value.
-console.log(addToCollection('Happier Than Ever', 'Billie Eilish', 2021));
-console.log(addToCollection('When We All Fall Asleep, Where Do We Go?', 'Billie Eilish', 2019));
-console.log(addToCollection('Apricot Princess', 'Rex Orange County', 2017));
-console.log(addToCollection('Abbey Road', 'The Beatles', 1969));
-console.log(addToCollection('Back to Black', 'Amy Winehouse', 2006));
-console.log(addToCollection('OK Computer', 'Radiohead', 1997));
+console.log(addToCollection('Happier Than Ever', 'Billie Eilish', 2021, [{name:"Getting Older", duration:"4:04"},{name:"Billie Bossa Nove", duration: "3:17"},{name:"Oxytocin",duration:"3:30"}]));
+
+console.log(addToCollection('When We All Fall Asleep, Where Do We Go?', 'Billie Eilish', 2019, [{name:"My Strange Addiction",duration:"3:00"},{name:"Bad Guy",duration:"3:13"},{name:"Bury a Friend",duration:"3:13"}]));
+
+console.log(addToCollection('Apricot Princess', 'Rex Orange County', 2017, [{name:"Apricot Princess", duration:"3:59"},{name:"Nothing", duration:"4:53"},{name:"Happiness", duration:"4:40"}]));
+
+console.log(addToCollection('Abbey Road', 'The Beatles', 1969, [{name:"Come Together", duration:"4:19"}, {name:"Here Comes the Sun", duration:"3:06"}, {name:"Oh! Darling",duration:"3:27"}]));
+
+console.log(addToCollection('Back to Black', 'Amy Winehouse', 2006, [{name:"Rehab",duration:"3:44"},{name:"You Know I'm no Good",duration:"4:17"},{name:"Me & Mr Jones",duration:"2:49"}]));
+
+console.log(addToCollection('OK Computer', 'Radiohead', 1997, [{name:"Airbag",duration:"4:44"},{name:"Let Down",duration:"4:59"},{name:"Climbing Up the Walls",duration:"4:45"}]));
 //  After all are added, console.log the `collection` array.
 console.log(collection);
 
@@ -69,41 +75,63 @@ console.log(findByArtist('Lizzo'));
 // Create a function called `search` and the argument of 'input'. 
 function search(input){
     // if input equals "undefined" (no value is assigned to input), or if an empty object was passed (yay for the internet!), return all albums in the collection.
-    if(input === undefined || Object.keys(input).length === 0 ){
-    return console.log(collection);
+    if(input === undefined){
+        return console.log(collection);
     }//end if 
+
 
 //create an empty array and call it 'matches' in order to store all the user entered matches.
     let matches = [];
     //create a for loop to loop through the collection and push each match into the new array 
-    for (let i=0; i<collection.length; i++){
-        if( input.artist === collection[i].artist && input.year === collection[i].yearPublished ){
-            matches.push( collection[i] );
+    if( typeof input === 'string'){
+        for( let i=0; i<collection.length; i++){
+            for(let j=0; j<collection[i].tracks.length; j++){
+                if(input===collection[i].tracks[j].name){
+                    matches.push({
+                        artist: collection[i].artist, 
+                        title: collection[i].title, 
+                        track: collection[i].tracks[j].name
+                    });
+                }
+            }
+        }//end for loop
+
+        if(matches.length===0){
+            return console.log(matches);
+        }
+        else {
+            for( let i=0; i<matches.length; i++ ){
+                console.log(matches[i]);
+            }   
+        }
+    }//end if 
+
+    else {
+        if(Object.keys(input).length === 0){
+            return console.log (collection);
+        }
+        else {
+            for (let i=0; i<collection.length; i++){
+                if(input.artist === collection[i].artist && input.yearPublished === collection[i].yearPublished){
+                    matches.push(collection[i]);
+                }
+            }//end for loop
+        }//end else 
+        
+        if(matches.length===0){
+            return console.log(matches);
+        }
+        else {
+            for( let i=0; i<matches.length; i++ ){
+                console.log(matches[i]);
+            }
         }
     }
-    //return matches
-    return console.log("Matches in Collection:", matches);
 }//end function
 
 search();
-search({ artist: 'Billie Eilish', year: 2021 });
-search({ artist: 'Finneas', year: 2020 });
 search({});
-
-
-
-
-// - Add an array of `tracks` to your album objects. Each track should have a `name` and `duration`. You will need to update the functions to support this new property:
-//   - Update the `addToCollection` function to also take an input parameter for the array of tracks.
-//   - Update `search` to allow a `trackName` search criteria.
-//   - Update the `showCollection` function to display the list of tracks for each album with its name and duration.
-// ```
-//     TITLE by ARTIST, published in YEAR:
-//     1. NAME: DURATION
-//     2. NAME: DURATION
-//     3. NAME: DURATION
-//     TITLE by ARTIST, published in YEAR:
-//     1. NAME: DURATION
-//     2. NAME: DURATION
-// ```
-
+search({artist:"Billie Eilish", yearPublished:2021});
+search({artist:"Brittney", yearPublished:2020});
+search("Come Together");
+search("Bla");
